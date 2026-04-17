@@ -1,0 +1,12 @@
+const axios = require('axios');
+module.exports = async (req, res) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    const { placeId } = req.query;
+    if (!placeId) return res.status(400).json({ error: "No PlaceId" });
+    try {
+        const response = await axios.get(`https://games.roblox.com/v1/games/${placeId}/servers/Public?sortOrder=Desc&limit=100`);
+        res.status(200).json(response.data);
+    } catch (e) {
+        res.status(500).json({ error: "Roblox API Error" });
+    }
+};
